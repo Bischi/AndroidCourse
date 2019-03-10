@@ -91,4 +91,9 @@ public class Contact implements Serializable {
     public void setCountry(String country) {
         _country = country;
     }
+
+    @Override
+    public String toString() {
+        return _firstname + " " + _lastname + " Email: " + _email;
+    }
 }

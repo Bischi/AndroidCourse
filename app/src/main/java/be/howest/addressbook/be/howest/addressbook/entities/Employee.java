@@ -1,8 +1,8 @@
 package be.howest.addressbook.be.howest.addressbook.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
+        import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+        import com.fasterxml.jackson.annotation.JsonProperty;
+        import com.fasterxml.jackson.annotation.JsonSetter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Employee {

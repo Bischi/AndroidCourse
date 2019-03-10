@@ -1,6 +1,7 @@
 package be.howest.addressbook;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -25,6 +26,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import be.howest.addressbook.be.howest.addressbook.entities.Employee;
 
@@ -41,47 +44,28 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        Button listBtn = findViewById(R.id.listBtn);
-        listBtn.setOnClickListener(e -> {
-            makeJSONRequets();
-        });
+//        Button listBtn = findViewById(R.id.listBtn);
+//        listBtn.setOnClickListener(e -> {
+//            getEmployeesFromSRV();
+//        });
     }
 
-    private void makeJSONRequets() {
+    private void getEmployeesFromSRV() {
         RequestQueue queue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, "http://192.168.0.249:8080/employees", null, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
-
-//                        Gson gson = new Gson();
-//                        Employee employee = null;
-//
-//
-//
-//                        try {
-//                            JSONArray arr = response.getJSONArray("recordset");
-//
-//                            employee = gson.fromJson(arr.get(0).toString(), Employee.class);
-//
-//                        } catch (JSONException e1) {
-//                            e1.printStackTrace();
-//                        }
-
-
-                        Employee employee = null;
                         ObjectMapper mapper = new ObjectMapper();
-//                        mapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+                        List<Employee> employees = new ArrayList<>();
 
-//                        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CAMEL_CASE);
-
-                        JSONArray arr = null;
                         try {
-                            arr = response.getJSONArray("recordset");
-                            String objString = arr.get(0).toString();
-                            employee = mapper.readValue(objString, Employee.class);
+                            JSONArray arr = response.getJSONArray("recordset");
 
+                            for(int i = 0; i < arr.length(); i++) {
+                                employees.add(mapper.readValue(arr.get(i).toString(), Employee.class));
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         } catch (JsonParseException e) {
@@ -91,24 +75,13 @@ public class MainActivity extends AppCompatActivity {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-
-
-                        if(employee != null)
-                            Log.d("Employee check: ", "Employee is filled!");
-                        else
-                            Log.d("Employee check", "Employee is null");
-
                     }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        Log.d("onErrorResponse", error.getMessage());
-                    }
+                }, error -> {
+                    error.printStackTrace();
+                    Log.d("onErrorResponse", error.getMessage());
                 });
 
-        // Access the RequestQueue through your singleton class.
         queue.add(jsonObjectRequest);
     }
 }
+

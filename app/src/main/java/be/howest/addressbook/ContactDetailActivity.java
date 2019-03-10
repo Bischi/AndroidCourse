@@ -13,6 +13,8 @@ import models.Contact;
 
 public class ContactDetailActivity extends AppCompatActivity {
 
+    private Contact _contact;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,8 +28,17 @@ public class ContactDetailActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                // Create the text message with a string
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, _contact.toString());
+                sendIntent.setType("text/plain");
+
+                // Verify that the intent will resolve to an activity
+                if (sendIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(sendIntent);
+                }
+
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -35,14 +46,14 @@ public class ContactDetailActivity extends AppCompatActivity {
 
     private void applyIntentData() {
         Intent intent = this.getIntent();
-        Contact contact = (Contact) intent.getSerializableExtra(NewContactActivity.EXTRA_CONTACT);
-        ((TextView)findViewById(R.id.firstnameLabel)).setText(contact.getFirstname());
-        ((TextView)findViewById(R.id.lastnameLabel)).setText(contact.getLastname());
-        ((TextView)findViewById(R.id.phoneNumberLabel)).setText(contact.getPhoneNumber());
-        ((TextView)findViewById(R.id.emailLabel)).setText(contact.getEmail());
-        ((TextView)findViewById(R.id.streetNameLabel)).setText(contact.getStreetName());
-        ((TextView)findViewById(R.id.streetNumberLabel)).setText(String.valueOf(contact.getStreetNumber()));
-        ((TextView)findViewById(R.id.postcodeLabel)).setText(String.valueOf(contact.getPostcode()));
-        ((TextView)findViewById(R.id.cityLabel)).setText(contact.getCity());
+        _contact = (Contact) intent.getSerializableExtra(NewContactActivity.EXTRA_CONTACT);
+        ((TextView) findViewById(R.id.firstnameLabel)).setText(_contact.getFirstname());
+        ((TextView) findViewById(R.id.lastnameLabel)).setText(_contact.getLastname());
+        ((TextView) findViewById(R.id.phoneNumberLabel)).setText(_contact.getPhoneNumber());
+        ((TextView) findViewById(R.id.emailLabel)).setText(_contact.getEmail());
+        ((TextView) findViewById(R.id.streetNameLabel)).setText(_contact.getStreetName());
+        ((TextView) findViewById(R.id.streetNumberLabel)).setText(String.valueOf(_contact.getStreetNumber()));
+        ((TextView) findViewById(R.id.postcodeLabel)).setText(String.valueOf(_contact.getPostcode()));
+        ((TextView) findViewById(R.id.cityLabel)).setText(_contact.getCity());
     }
 }
