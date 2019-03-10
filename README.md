@@ -3,7 +3,7 @@
 Martin Bischof
 
 ## Content of this project
-This project contains the exercises from the Android course, except the "Data Storage" exercise. I did not encouter any problems in any exercise. 
+This project  includes all the topics covered in the Android course, except the "Data Storage" exercise. I did not encouter any problems in any exercise. 
 
 **Functionalities**
 * different Activities:
