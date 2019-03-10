@@ -9,7 +9,7 @@ This project contains the exercises from the Android course, except the "Data St
 * different Activities:
     * `MainActivity` is the screen which is visible when the app starts
     * `NewContactActivity` with a form to record contact data
-    * `ContactDetailActivity` to watch the recorded contact data with an implicit intent to send the contact data via email or sms
+    * `ContactDetailActivity` to watch the recorded contact data with an `implicit intent` to send the contact data via email or sms
 
 
 
